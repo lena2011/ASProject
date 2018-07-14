@@ -13,6 +13,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.lena.asp.R;
+import com.lena.asp.base.BaseActivity;
+import com.lena.asp.common.okgo.OkClient;
 import com.lena.asp.fragment.FourFrag;
 import com.lena.asp.fragment.OneFrag;
 import com.lena.asp.fragment.ThreeFrag;
@@ -23,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements OneFrag.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInteractionListener {
 
 
     @BindView(R.id.tv_tab_one)
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements OneFrag.OnFragmen
         initFragment();
         if (savedInstanceState == null) {
             customFrag(mOneFrag);
-        }else {
+        } else {
             mCurrentFrag = getSupportFragmentManager().findFragmentById(R.id.frag_content);
         }
 
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OneFrag.OnFragmen
     }
 
     private void customFrag(Fragment fragment) {
-        LogUtil.i("mcurrentFrag="+fragment);
+        LogUtil.i("mcurrentFrag=" + fragment);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (mCurrentFrag != fragment) {
@@ -110,17 +112,11 @@ public class MainActivity extends AppCompatActivity implements OneFrag.OnFragmen
         super.onStop();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-
 
 
     @OnClick({R.id.tv_tab_one, R.id.tv_tab_two, R.id.tv_tab_three, R.id.tv_tab_four})
@@ -138,6 +134,10 @@ public class MainActivity extends AppCompatActivity implements OneFrag.OnFragmen
             case R.id.tv_tab_four:
                 customFrag(mFourFrag);
                 break;
+            default:
+                break;
         }
     }
+
+
 }

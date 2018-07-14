@@ -12,6 +12,7 @@ import com.lena.asp.R;
 import com.lena.asp.common.api.CommonApi;
 import com.lena.asp.common.callback.CallbackApi;
 import com.lena.asp.common.entity.WeatherEntity;
+import com.lena.asp.utils.StringUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.HttpParams;
 
@@ -29,6 +30,12 @@ public class ChildIndexFrag extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.tv_weather)
     TextView mTvWeather;
+    @BindView(R.id.tv_pm25)
+    TextView mTvPm25;
+    @BindView(R.id.tv_pm10)
+    TextView mTvPm10;
+    @BindView(R.id.tv_quality)
+    TextView mTvQuality;
     private String type;
 
     public ChildIndexFrag getInstance(String type) {
@@ -82,12 +89,16 @@ public class ChildIndexFrag extends Fragment {
             return;
         }
         mTvWeather.setText(weatherEntity.getData().getShidu());
+        mTvPm25.setText(StringUtils.formatD(weatherEntity.getData().getPm25()));
+        mTvPm10.setText(StringUtils.formatD(weatherEntity.getData().getPm10()));
+        mTvQuality.setText(weatherEntity.getData().getQuality());
+
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        OkGo.getInstance().cancelTag(this);
     }
 
     @Override

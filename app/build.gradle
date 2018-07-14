@@ -29,8 +29,10 @@ dependencies {
     //okgo网络框架
     implementation 'com.lzy.net:okgo:3.0.4'
     //fastJson
-    compile 'com.alibaba:fastjson:1.2.47'
+    implementation 'com.alibaba:fastjson:1.2.47'
     //butterKnife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //eventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
