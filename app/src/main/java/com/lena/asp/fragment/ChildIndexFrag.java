@@ -12,6 +12,7 @@ import com.lena.asp.R;
 import com.lena.asp.common.api.CommonApi;
 import com.lena.asp.common.callback.CallbackApi;
 import com.lena.asp.common.entity.WeatherEntity;
+import com.lena.asp.utils.LogUtil;
 import com.lena.asp.utils.StringUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.HttpParams;
@@ -38,7 +39,10 @@ public class ChildIndexFrag extends Fragment {
     TextView mTvQuality;
     private String type;
 
-    public ChildIndexFrag getInstance(String type) {
+    public ChildIndexFrag() {
+    }
+
+    public static ChildIndexFrag getInstance(String type) {
         ChildIndexFrag indexFrag = new ChildIndexFrag();
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
@@ -46,9 +50,17 @@ public class ChildIndexFrag extends Fragment {
         return indexFrag;
     }
 
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        LogUtil.i("setUserVisibleHint");
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.i("onCreate");
         if (null != getArguments()) {
             type = getArguments().getString("typ");
         }
@@ -56,15 +68,22 @@ public class ChildIndexFrag extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        LogUtil.i("onCreateView");
         View view = inflater.inflate(R.layout.frag_child_index, container, false);
         unbinder = ButterKnife.bind(this, view);
+        initView();
         return view;
 
+    }
+
+    private void initView() {
+        mTvWeather.setText("天气");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        LogUtil.i("onActivityCreated");
         initData();
     }
 
@@ -99,6 +118,7 @@ public class ChildIndexFrag extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        LogUtil.i("onDestroy");
     }
 
     @Override

@@ -34,7 +34,6 @@ public class OneFrag extends Fragment {
     @BindView(R.id.vp_container)
     ViewPager vpContainer;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -49,7 +48,11 @@ public class OneFrag extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
+    /**
+     * @param param1
+     * @param param2
+     * @return
+     */
     public static OneFrag newInstance(String param1, String param2) {
         OneFrag fragment = new OneFrag();
         Bundle args = new Bundle();
@@ -62,6 +65,7 @@ public class OneFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.i("onCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -81,7 +85,7 @@ public class OneFrag extends Fragment {
     private void initView() {
         LogUtil.i("initView");
         List<Fragment> frags = new ArrayList<>();
-        frags.add(new ChildIndexFrag());
+        frags.add(ChildIndexFrag.getInstance("none"));
         frags.add(new ChildChannelFrag());
 
         mPagerAdapter = new OneViewPagerAdapter(getChildFragmentManager(), frags);
