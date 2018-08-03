@@ -1,11 +1,15 @@
 package com.lena.asp.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lena.asp.R;
@@ -14,12 +18,18 @@ import com.lena.asp.common.callback.CallbackApi;
 import com.lena.asp.common.entity.WeatherEntity;
 import com.lena.asp.utils.LogUtil;
 import com.lena.asp.utils.StringUtils;
-import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.HttpParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * File description.
@@ -37,6 +47,8 @@ public class ChildIndexFrag extends Fragment {
     TextView mTvPm10;
     @BindView(R.id.tv_quality)
     TextView mTvQuality;
+    @BindView(R.id.iv_pic)
+    ImageView mIvPic;
     private String type;
 
     public ChildIndexFrag() {
@@ -78,6 +90,7 @@ public class ChildIndexFrag extends Fragment {
 
     private void initView() {
         mTvWeather.setText("天气");
+
     }
 
     @Override
@@ -88,6 +101,9 @@ public class ChildIndexFrag extends Fragment {
     }
 
     private void initData() {
+        testRxJava();
+
+
         HttpParams httpParams = new HttpParams();
         httpParams.put("city", "北京");
         CommonApi.getWeatherApi(getActivity(), httpParams, new CallbackApi<WeatherEntity>() {
@@ -101,6 +117,72 @@ public class ChildIndexFrag extends Fragment {
 
             }
         });
+    }
+
+    private void testRxJava() {
+        String[] names = {"l", "i"};
+        Observable.from(names)
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        LogUtil.i("name" + s);
+                    }
+                });
+        final int drawableRes = R.mipmap.ic_launcher;
+        Observable.create(new Observable.OnSubscribe<Drawable>() {
+            @Override
+            public void call(Subscriber<? super Drawable> subscriber) {
+                Drawable drawable = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    drawable = getActivity().getTheme().getDrawable(drawableRes);
+                } else {
+                    drawable = ContextCompat.getDrawable(getActivity(), drawableRes);
+                }
+                subscriber.onNext(drawable);
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Drawable>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.i("error!");
+                    }
+
+                    @Override
+                    public void onNext(Drawable drawable) {
+                        mIvPic.setImageDrawable(drawable);
+                    }
+                });
+
+        Observable.just(1, 2, 3, 4)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer integer) {
+                        LogUtil.i("number=" + integer);
+                    }
+                });
+        Observable.just("")
+                .map(new Func1<String, Bitmap>() {
+                    @Override
+                    public Bitmap call(String s) {
+                        return null;
+                    }
+                })
+                .subscribe(new Action1<Bitmap>() {
+                    @Override
+                    public void call(Bitmap bitmap) {
+
+                    }
+                });
     }
 
     private void updateData(WeatherEntity weatherEntity) {
