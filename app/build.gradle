@@ -10,10 +10,17 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ['src/main/libs']
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true //混淆
-            buildConfigField "boolean","LOG_DEBUG","false"
+            buildConfigField "boolean", "LOG_DEBUG", "false"
             zipAlignEnabled true//zipalign优化
             shrinkResources true //移除无用的resource
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -25,6 +32,8 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     testImplementation 'junit:junit:4.12'
+
+    compile project(':common')
 
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
