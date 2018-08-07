@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lena.asp.R;
 import com.lena.asp.base.BaseActivity;
@@ -21,6 +22,7 @@ import com.lena.asp.fragment.ThreeFrag;
 import com.lena.asp.fragment.TwoFrag;
 import com.lena.asp.utils.Constant;
 import com.lena.asp.utils.LogUtil;
+import com.lena.asp.utils.SharedPreferenceUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +62,7 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
         } else {
             mCurrentFrag = getSupportFragmentManager().findFragmentById(R.id.frag_content);
         }
-        connect(Constant.IMToken);
+        connect(Constant.Token2012);
 
     }
 
@@ -123,7 +125,7 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
     }
 
     /**
-     * <p>连接服务器，在整个应用程序全局，只需要调用一次，需在 {@link #init(Context)} 之后调用。</p>
+     * <p>连接服务器，在整个应用程序全局，只需要调用一次，需在 {@link } 之后调用。</p>
      * <p>如果调用此接口遇到连接失败，SDK 会自动启动重连机制进行最多10次重连，分别是1, 2, 4, 8, 16, 32, 64, 128, 256, 512秒后。
      * 在这之后如果仍没有连接成功，还会在当检测到设备网络状态变化时再次进行重连。</p>
      *
@@ -131,9 +133,9 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
      * @return RongIM  客户端核心类的实例。
      */
     private void connect(String IMToken) {
-        LogUtil.i( getApplicationInfo().packageName + "," + SysApplication.getProcessName(android.os.Process.myPid()));
-        if (getApplicationInfo().packageName.equals(SysApplication.getProcessName(android.os.Process.myPid()))) {
 
+        if (getApplicationInfo().packageName.equals(SysApplication.getProcessName(android.os.Process.myPid()))) {
+            LogUtil.i("token=" + IMToken);
             RongIM.connect(IMToken, new RongIMClient.ConnectCallback() {
 
                 /**
@@ -142,7 +144,8 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
                  */
                 @Override
                 public void onTokenIncorrect() {
-                    LogUtil.e("onTokenIncorrect");
+                    Toast.makeText(MainActivity.this, "onTokenIncorrect", Toast.LENGTH_SHORT).show();
+                    // TODO: 2018/8/7 token获取错误的时候需要重新获取
                 }
 
                 /**
@@ -152,8 +155,9 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
                 @Override
                 public void onSuccess(String userid) {
                     LogUtil.i("userID=" + userid);
+                    SharedPreferenceUtil.saveUserId(MainActivity.this, userid);
+                    Toast.makeText(MainActivity.this, "onSuccess", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, ConversationListActivity.class));
-
                 }
 
                 /**
@@ -162,9 +166,12 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
                  */
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
+                    Toast.makeText(MainActivity.this, "onError", Toast.LENGTH_SHORT).show();
                     LogUtil.e("errorcode" + errorCode + "message" + errorCode.getMessage());
                 }
+
             });
+
         }
 
     }

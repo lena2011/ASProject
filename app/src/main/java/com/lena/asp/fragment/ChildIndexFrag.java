@@ -1,7 +1,9 @@
 package com.lena.asp.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,15 +15,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lena.asp.R;
+import com.lena.asp.activity.ConversationActivity;
+import com.lena.asp.activity.ConversationListActivity;
 import com.lena.asp.common.api.CommonApi;
 import com.lena.asp.common.callback.CallbackApi;
 import com.lena.asp.common.entity.WeatherEntity;
 import com.lena.asp.utils.LogUtil;
+import com.lena.asp.utils.SharedPreferenceUtil;
 import com.lena.asp.utils.StringUtils;
 import com.lzy.okgo.model.HttpParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
 import rx.Observer;
@@ -49,6 +55,8 @@ public class ChildIndexFrag extends Fragment {
     TextView mTvQuality;
     @BindView(R.id.iv_pic)
     ImageView mIvPic;
+    @BindView(R.id.tv_rongyun)
+    TextView mTvRongyun;
     private String type;
 
     public ChildIndexFrag() {
@@ -90,6 +98,7 @@ public class ChildIndexFrag extends Fragment {
 
     private void initView() {
         mTvWeather.setText("天气");
+
 
     }
 
@@ -133,7 +142,7 @@ public class ChildIndexFrag extends Fragment {
             @Override
             public void call(Subscriber<? super Drawable> subscriber) {
                 Drawable drawable = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     drawable = getActivity().getTheme().getDrawable(drawableRes);
                 } else {
                     drawable = ContextCompat.getDrawable(getActivity(), drawableRes);
@@ -208,4 +217,6 @@ public class ChildIndexFrag extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }

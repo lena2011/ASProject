@@ -1,6 +1,8 @@
 package com.lena.asp.common.application;
 
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.lena.asp.utils.Constant;
@@ -35,6 +37,31 @@ public class SysApplication extends Application {
 
     private void initRongYun() {
         RongIM.init(this);
+        RongIM.setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
+            @Override
+            public void onChanged(ConnectionStatus connectionStatus) {
+                switch (connectionStatus) {
+                    case CONNECTED:
+//                        连接成功
+                        break;
+                    case DISCONNECTED:
+//                        断开连接
+                        break;
+                    case CONNECTING:
+//                        连接中
+                        break;
+                    case NETWORK_UNAVAILABLE:
+//                        网络不可用
+                        break;
+                    case KICKED_OFFLINE_BY_OTHER_CLIENT:
+//                        用户账户在其他设备登陆
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        });
     }
 
 
@@ -82,4 +109,16 @@ public class SysApplication extends Application {
         }
         return null;
     }
+
+//    public int getUid() {
+//        int uid = 0;
+//        try {
+//            PackageManager pm = getPackageManager();
+//            ApplicationInfo ai = pm.getApplicationInfo(getProcessName(android.os.Process.myPid()), PackageManager.GET_ACTIVITIES);
+//            uid = ai.uid;
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        return uid;
+//    }
 }
