@@ -12,7 +12,7 @@ public class Person implements Serializable {
     private String userImg;
 
     public String getUserId() {
-        return userId;
+        return userId == null ? "" : userId;
     }
 
     public void setUserId(String userId) {
@@ -20,7 +20,7 @@ public class Person implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -28,7 +28,7 @@ public class Person implements Serializable {
     }
 
     public String getUserImg() {
-        return userImg;
+        return userImg == null ? "" : userImg;
     }
 
     public void setUserImg(String userImg) {

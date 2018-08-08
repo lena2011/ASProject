@@ -1,6 +1,7 @@
 package com.lena.asp.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,9 +9,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lena.asp.R;
 import com.lena.asp.base.BaseActivity;
+import com.lena.asp.common.application.SysApplication;
+import com.lena.asp.utils.Constant;
 import com.lena.asp.utils.LogUtil;
 import com.lena.asp.utils.SharedPreferenceUtil;
 import com.lena.asp.utils.StringUtils;
@@ -21,6 +25,7 @@ import butterknife.OnClick;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.model.UIConversation;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 /**
@@ -42,6 +47,13 @@ public class ConversationListActivity extends BaseActivity {
         initListener();
     }
 
+    private void initData() {
+        String userId = SharedPreferenceUtil.getUserId(this);
+        if (!StringUtils.isEmpty(userId)) {
+            mTvConversation.setText(userId);
+        }
+    }
+
     private void initListener() {
         RongIM.setConversationListBehaviorListener(new RongIM.ConversationListBehaviorListener() {
             @Override
@@ -59,19 +71,30 @@ public class ConversationListActivity extends BaseActivity {
                 return false;
             }
 
+            /**点击会话列表中的item
+             * @param context
+             * @param view
+             * @param uiConversation
+             * @return
+             */
             @Override
             public boolean onConversationClick(Context context, View view, UIConversation uiConversation) {
-                return false;
+//                if (uiConversation!=null){
+//                Intent intent=new Intent(context,ConversationActivity.class);
+//                intent.putExtra("title",uiConversation.getUIConversationTitle()!=null?uiConversation.getUIConversationTitle():"");
+//                context.startActivity(intent);
+//                return true;
+//                }else {
+//                    return false;
+//                }
+            return false;
+
             }
         });
+
     }
 
-    private void initData() {
-        String userId = SharedPreferenceUtil.getUserId(this);
-        if (!StringUtils.isEmpty(userId)) {
-            mTvConversation.setText(userId);
-        }
-    }
+
 
     @Override
     protected void onResume() {

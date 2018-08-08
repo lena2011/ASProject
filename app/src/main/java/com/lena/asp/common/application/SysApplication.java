@@ -1,9 +1,9 @@
 package com.lena.asp.common.application;
 
 import android.app.Application;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.lena.asp.utils.Constant;
 import com.lena.asp.utils.LogUtil;
@@ -35,36 +35,6 @@ public class SysApplication extends Application {
 
     }
 
-    private void initRongYun() {
-        RongIM.init(this);
-        RongIM.setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
-            @Override
-            public void onChanged(ConnectionStatus connectionStatus) {
-                switch (connectionStatus) {
-                    case CONNECTED:
-//                        连接成功
-                        break;
-                    case DISCONNECTED:
-//                        断开连接
-                        break;
-                    case CONNECTING:
-//                        连接中
-                        break;
-                    case NETWORK_UNAVAILABLE:
-//                        网络不可用
-                        break;
-                    case KICKED_OFFLINE_BY_OTHER_CLIENT:
-//                        用户账户在其他设备登陆
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-        });
-    }
-
-
     /**
      * 全局配置initgo，可以配置超时时间，cookie管理，加拦截器，信任证书
      * 全局公共头，公共参数
@@ -83,6 +53,78 @@ public class SysApplication extends Application {
         ;
     }
 
+    private void initRongYun() {
+        RongIM.init(this);
+        RongIM.setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
+            @Override
+            public void onChanged(ConnectionStatus connectionStatus) {
+                LogUtil.i("connection=" + connectionStatus);
+                switch (connectionStatus) {
+                    case CONNECTED:
+//                        连接成功
+                        break;
+                    case DISCONNECTED:
+//                        断开连接
+                        Toast.makeText(getApplicationContext(), "断开连接", Toast.LENGTH_SHORT).show();
+                        reconnect();
+                        break;
+                    case CONNECTING:
+//                        连接中
+                        break;
+                    case NETWORK_UNAVAILABLE:
+//                        网络不可用
+
+                        break;
+                    case KICKED_OFFLINE_BY_OTHER_CLIENT:
+//                        用户账户在其他设备登陆
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        });
+    }
+
+    private void reconnect() {
+        if (getApplicationInfo().packageName.equals(SysApplication.getProcessName(android.os.Process.myPid()))) {
+            RongIM.connect(Constant.IMToken2012, new RongIMClient.ConnectCallback() {
+
+                /**
+                 * Token 错误。可以从下面两点检查 1.  Token 是否过期，如果过期您需要向 App Server 重新请求一个新的 Token
+                 *                  2.  token 对应的 appKey 和工程里设置的 appKey 是否一致
+                 */
+                @Override
+                public void onTokenIncorrect() {
+                    Toast.makeText(getApplicationContext(), "onTokenIncorrect", Toast.LENGTH_SHORT).show();
+                    // TODO: 2018/8/7 token获取错误的时候需要重新获取
+                }
+
+                /**
+                 * 连接融云成功
+                 * @param userid 当前 token 对应的用户 id
+                 */
+                @Override
+                public void onSuccess(String userid) {
+                    LogUtil.i("userID=" + userid);
+                    Toast.makeText(getApplicationContext(), "onSuccess", Toast.LENGTH_SHORT).show();
+
+                }
+
+                /**
+                 * 连接融云失败
+                 * @param errorCode 错误码，可到官网 查看错误码对应的注释
+                 */
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    Toast.makeText(getApplicationContext(), "onError", Toast.LENGTH_SHORT).show();
+                    LogUtil.e("errorcode" + errorCode + "message" + errorCode.getMessage());
+                }
+
+            });
+
+        }
+    }
 
     /**
      * 获取进程号对应的进程名
@@ -110,15 +152,5 @@ public class SysApplication extends Application {
         return null;
     }
 
-//    public int getUid() {
-//        int uid = 0;
-//        try {
-//            PackageManager pm = getPackageManager();
-//            ApplicationInfo ai = pm.getApplicationInfo(getProcessName(android.os.Process.myPid()), PackageManager.GET_ACTIVITIES);
-//            uid = ai.uid;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return uid;
-//    }
+
 }

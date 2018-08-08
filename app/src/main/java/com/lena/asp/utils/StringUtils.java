@@ -18,7 +18,7 @@ public class StringUtils {
         return String.format(Locale.CHINA, "%d", d);
     }
 
-    public static boolean isEmpty(String value) {
-        return null == value || value.isEmpty();
+    public static boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
     }
 }

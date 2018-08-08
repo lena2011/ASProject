@@ -29,6 +29,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Group;
+import io.rong.imlib.model.UserInfo;
 
 public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInteractionListener {
 
@@ -62,9 +64,11 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
         } else {
             mCurrentFrag = getSupportFragmentManager().findFragmentById(R.id.frag_content);
         }
-        connect(Constant.Token2012);
+        connect(Constant.IMToken2012);
 
     }
+
+
 
     private void initFragment() {
 
@@ -90,37 +94,6 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
         fragmentTransaction.show(mCurrentFrag);
         fragmentTransaction.commit();
 
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
     }
 
@@ -158,6 +131,7 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
                     SharedPreferenceUtil.saveUserId(MainActivity.this, userid);
                     Toast.makeText(MainActivity.this, "onSuccess", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(MainActivity.this, ConversationListActivity.class));
+                    updateUserProvider();
                 }
 
                 /**
@@ -176,6 +150,63 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
 
     }
 
+    private void updateUserProvider() {
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+            @Override
+            public UserInfo getUserInfo(String s) {
+                // TODO: 2018/8/8 如果是异步获取用户信息，需要再异步回调接口中刷新用户信息和群组信息
+//                RongIM.getInstance().refreshUserInfoCache(new UserInfo());
+//                RongIM.getInstance().refreshGroupInfoCache(new Group());
+                return findUserById(s);
+            }
+        }, true);
+    }
+
+    /**
+     * @param s
+     * @return
+     */
+    private UserInfo findUserById(String s) {
+        UserInfo userInfo = null;
+        if (s.equals("2011")) {
+            userInfo = new UserInfo("2011", "lena", Uri.parse("http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png"));
+        } else {
+            userInfo = new UserInfo("2012", "zaoren", Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533703776647&di=00c33b7a0618a631d948626e466943f8&imgtype=0&src=http%3A%2F%2Fwww.qqzhi.com%2Fuploadpic%2F2015-01-29%2F075027854.jpg"));
+        }
+        return userInfo;
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startActivity(new Intent(MainActivity.this, ConversationListActivity.class));
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 
     @OnClick({R.id.tv_tab_one, R.id.tv_tab_two, R.id.tv_tab_three, R.id.tv_tab_four})
     public void onViewClicked(View view) {
