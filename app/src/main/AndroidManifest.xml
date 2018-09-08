@@ -72,10 +72,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".activity.Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
