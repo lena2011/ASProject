@@ -25,7 +25,6 @@ public class OneViewPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-
     @Override
     public Fragment getItem(int position) {
         return mList == null ? null : mList.get(position);
@@ -33,7 +32,7 @@ public class OneViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        LogUtil.i("count="+mList.size());
+        LogUtil.i("count=" + mList.size());
         return mList == null ? 0 : mList.size();
     }
 

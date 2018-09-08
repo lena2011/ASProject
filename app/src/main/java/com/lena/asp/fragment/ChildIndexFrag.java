@@ -73,7 +73,7 @@ public class ChildIndexFrag extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         LogUtil.i("setUserVisibleHint" + isVisibleToUser);
-        if (isVisibleToUser) {
+        if (isVisibleToUser && mLlChildIndex != null) {
             mLlChildIndex.setVisibility(View.VISIBLE);
         }
     }

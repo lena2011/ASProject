@@ -14,13 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lena.asp.R;
-import com.lena.asp.base.BaseActivity;
+import com.lena.asp.base.BaseAppActivity;
 import com.lena.asp.common.application.SysApplication;
 import com.lena.asp.fragment.FourFrag;
 import com.lena.asp.fragment.OneFrag;
 import com.lena.asp.fragment.ThreeFrag;
 import com.lena.asp.fragment.TwoFrag;
-import com.lena.asp.utils.Constant;
 import com.lena.asp.utils.LogUtil;
 import com.lena.asp.utils.SharedPreferenceUtil;
 
@@ -29,10 +28,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Group;
 import io.rong.imlib.model.UserInfo;
 
-public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInteractionListener {
+public class MainActivity extends BaseAppActivity implements OneFrag.OnFragmentInteractionListener {
 
 
     @BindView(R.id.tv_tab_one)

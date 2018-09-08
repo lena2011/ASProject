@@ -5,6 +5,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.lena.asp.activity.CrashActivity;
+import com.lena.asp.activity.MainActivity;
+import com.lena.asp.activity.WeatherActivity;
 import com.lena.asp.utils.Constant;
 import com.lena.asp.utils.LogUtil;
 import com.lzy.okgo.OkGo;
@@ -18,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import cat.ereza.customactivityoncrash.config.CaocConfig;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import okhttp3.OkHttpClient;
@@ -32,6 +36,7 @@ public class SysApplication extends Application {
         super.onCreate();
         initOKGo();
         initRongYun();
+        initCrashConfig();
 
     }
 
@@ -84,6 +89,13 @@ public class SysApplication extends Application {
                 }
             }
         });
+    }
+
+    private void initCrashConfig() {
+        CaocConfig.Builder.create()
+                .errorActivity(CrashActivity.class)
+                .restartActivity(WeatherActivity.class)
+                .apply();
     }
 
     private void reconnect() {

@@ -3,15 +3,12 @@ package com.lena.asp.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lena.asp.R;
-import com.lena.asp.base.BaseActivity;
+import com.lena.asp.base.BaseAppActivity;
 import com.lena.asp.utils.LogUtil;
-import com.lena.asp.utils.SharedPreferenceUtil;
 import com.lena.asp.utils.StringUtils;
 
 import java.util.Collection;
@@ -33,7 +30,7 @@ import io.rong.message.VoiceMessage;
  * @author lilingfei
  * @date 2018/8/6
  */
-public class ConversationActivity extends BaseActivity {
+public class ConversationActivity extends BaseAppActivity {
     private final int SET_TEXT_TYPING_TITLE = 0;
     private final int SET_VOICE_TYPING_TITLE = 1;
     private final int SET_TARGETID_TITLE = 2;

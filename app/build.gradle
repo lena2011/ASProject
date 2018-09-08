@@ -52,4 +52,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.0.1'
     //luban picture zoom
     implementation 'top.zibin:Luban:1.1.8'
+
+    compile 'cat.ereza:customactivityoncrash:2.2.0'
 }

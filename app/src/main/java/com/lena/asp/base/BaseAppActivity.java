@@ -12,7 +12,7 @@ import com.lena.asp.common.okgo.OkClient;
  * @date 2018/7/14
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseAppActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
