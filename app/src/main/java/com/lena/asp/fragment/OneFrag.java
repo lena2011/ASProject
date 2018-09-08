@@ -15,6 +15,7 @@ import com.lena.asp.R;
 import com.lena.asp.adapter.OneViewPagerAdapter;
 import com.lena.asp.utils.LogUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +23,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import top.zibin.luban.CompressionPredicate;
+import top.zibin.luban.Luban;
+import top.zibin.luban.OnCompressListener;
 
 public class OneFrag extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    public String[] titles = new String[]{"首页", "标题"};
     Unbinder unbinder;
     @BindView(R.id.tl_nav)
     TabLayout tlNav;
     @BindView(R.id.vp_container)
     ViewPager vpContainer;
-
     private String mParam1;
     private String mParam2;
-
-    public String[] titles = new String[]{"首页", "标题"};
-
     private OnFragmentInteractionListener mListener;
 
     private OneViewPagerAdapter mPagerAdapter;
@@ -62,6 +62,24 @@ public class OneFrag extends Fragment {
         return fragment;
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +97,7 @@ public class OneFrag extends Fragment {
         View view = inflater.inflate(R.layout.fragment_one, container, false);
         unbinder = ButterKnife.bind(this, view);
         initView();
+        loadMessage();
         return view;
     }
 
@@ -112,35 +131,45 @@ public class OneFrag extends Fragment {
         });
     }
 
+    private void loadMessage() {
+        File file = new File("http://imgone.jjsqzg.com//1c180c463ee24ecfb4e3afd7a70ea595//47c4ed15f87843cdbc4cf5510c749f43.jpg");
+        Luban.with(getActivity())
+                .load(file)
+                .ignoreBy(100)
+                .filter(new CompressionPredicate() {
+                    @Override
+                    public boolean apply(String path) {
+                        return false;
+                    }
+                })
+                .setCompressListener(new OnCompressListener() {
+                    @Override
+                    public void onStart() {
+                        LogUtil.i("onStart");
+                    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+                    @Override
+                    public void onSuccess(File file) {
+                        LogUtil.i("onSuccess" + file.length() / 1024);
+                    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e("onerror=" + e.getMessage());
+                    }
+                }).launch();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
 

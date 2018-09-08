@@ -1,6 +1,5 @@
 package com.lena.asp.fragment;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -12,22 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.lena.asp.R;
-import com.lena.asp.activity.ConversationActivity;
-import com.lena.asp.activity.ConversationListActivity;
 import com.lena.asp.common.api.CommonApi;
 import com.lena.asp.common.callback.CallbackApi;
 import com.lena.asp.common.entity.WeatherEntity;
 import com.lena.asp.utils.LogUtil;
-import com.lena.asp.utils.SharedPreferenceUtil;
 import com.lena.asp.utils.StringUtils;
 import com.lzy.okgo.model.HttpParams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import rx.Observable;
 import rx.Observer;
@@ -57,6 +53,8 @@ public class ChildIndexFrag extends Fragment {
     ImageView mIvPic;
     @BindView(R.id.tv_rongyun)
     TextView mTvRongyun;
+    @BindView(R.id.ll_child_index)
+    LinearLayout mLlChildIndex;
     private String type;
 
     public ChildIndexFrag() {
@@ -74,7 +72,10 @@ public class ChildIndexFrag extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        LogUtil.i("setUserVisibleHint");
+        LogUtil.i("setUserVisibleHint" + isVisibleToUser);
+        if (isVisibleToUser) {
+            mLlChildIndex.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -207,15 +208,15 @@ public class ChildIndexFrag extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LogUtil.i("onDestroy");
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.i("onDestroy");
     }
 
 

@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
         } else {
             mCurrentFrag = getSupportFragmentManager().findFragmentById(R.id.frag_content);
         }
-        connect(Constant.IMToken2012);
+//        connect(Constant.IMToken2012);
 
     }
 
@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity implements OneFrag.OnFragmentInte
     @Override
     protected void onResume() {
         super.onResume();
-        startActivity(new Intent(MainActivity.this, ConversationListActivity.class));
+//        startActivity(new Intent(MainActivity.this, ConversationListActivity.class));
     }
 
     @Override

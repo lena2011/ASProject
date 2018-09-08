@@ -58,9 +58,10 @@
                 android:resource="@xml/rc_file_path" />
         </provider>
 
-        <activity android:name=".activity.ConversationMainActivity"></activity>
+        <activity android:name=".activity.ConversationMainActivity" />
 
-        <receiver android:name=".receiver.RongNotificationReciver"
+        <receiver
+            android:name=".receiver.RongNotificationReciver"
             android:exported="true">
             <intent-filter>
                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
@@ -70,6 +71,11 @@
                 <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
