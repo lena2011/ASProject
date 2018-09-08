@@ -1,5 +1,6 @@
 package com.lena.asp.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,9 @@ import android.widget.TextView;
 
 import com.lena.asp.R;
 import com.lena.asp.base.BaseFragment;
+import com.lena.asp.common.api.CommonApi;
+import com.lena.asp.common.callback.CallbackApi;
+import com.lena.asp.common.entity.WeatherEntity;
 import com.lena.asp.utils.LogUtil;
 
 import butterknife.BindView;
@@ -44,13 +48,38 @@ public class CityFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActivity = getActivity();
+        initView();
+    }
+
+    @Override
+    public void initData() {
+        CommonApi.getWeatherApi(mActivity, "北京", new CallbackApi<WeatherEntity>() {
+            @Override
+            public void onSuccess(WeatherEntity weatherEntity) {
+
+            }
+
+            @Override
+            public void onFail(String message) {
+
+            }
+        });
+    }
+
+    private void initView() {
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_city, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
-
     }
 
     @Override

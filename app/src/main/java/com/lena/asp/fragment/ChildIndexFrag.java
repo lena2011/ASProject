@@ -114,9 +114,7 @@ public class ChildIndexFrag extends Fragment {
         testRxJava();
 
 
-        HttpParams httpParams = new HttpParams();
-        httpParams.put("city", "北京");
-        CommonApi.getWeatherApi(getActivity(), httpParams, new CallbackApi<WeatherEntity>() {
+        CommonApi.getWeatherApi(getActivity(), "北京", new CallbackApi<WeatherEntity>() {
             @Override
             public void onSuccess(WeatherEntity weatherEntity) {
                 updateData(weatherEntity);

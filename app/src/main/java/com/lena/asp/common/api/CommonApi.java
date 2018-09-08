@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lena.asp.common.callback.CallbackApi;
+import com.lena.asp.common.callback.OkClientCallback;
 import com.lena.asp.common.entity.WeatherEntity;
 import com.lena.asp.common.okgo.CallbackOkClient;
 import com.lena.asp.common.okgo.OkClient;
@@ -25,21 +26,17 @@ public class CommonApi {
      * 获取天气接口
      *
      * @param mContext
-     * @param params
+     * @param city
      * @param callbackApi
      */
-    public static void getWeatherApi(Context mContext, HttpParams params, final CallbackApi<WeatherEntity> callbackApi) {
-        OkClient.getInstance().getString(mContext, ApiUrl.weatherUrl, params, new CallbackOkClient<String>() {
+    public static void getWeatherApi(Context mContext, String city, final CallbackApi<WeatherEntity> callbackApi) {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put("city", city);
+        OkClient.getInstance().getString(mContext, ApiUrl.weatherUrl, httpParams, new OkClientCallback() {
             @Override
-            public void onSuccess(String result) {
-                WeatherEntity weatherEntity = JSONObject.parseObject(result, WeatherEntity.class);
-                callbackApi.onSuccess(weatherEntity);
-
-            }
-
-            @Override
-            public void onFail(String message) {
-                callbackApi.onFail(message);
+            public void onSuccess(Response response) {
+                super.onSuccess(response);
+                LogUtil.i("response=" + response);
             }
         });
 
