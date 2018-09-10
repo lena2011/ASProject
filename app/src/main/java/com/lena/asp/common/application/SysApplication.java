@@ -2,11 +2,9 @@ package com.lena.asp.common.application;
 
 import android.app.Application;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.lena.asp.activity.CrashActivity;
-import com.lena.asp.activity.MainActivity;
 import com.lena.asp.activity.WeatherActivity;
 import com.lena.asp.utils.Constant;
 import com.lena.asp.utils.LogUtil;

@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.lena.asp.R;
-import com.lena.asp.base.BaseAppActivity;
+import com.lena.asp.base.BaseActivity;
 import com.lena.asp.utils.LogUtil;
 import com.lena.asp.utils.SharedPreferenceUtil;
 import com.lena.asp.utils.StringUtils;
@@ -27,7 +27,7 @@ import io.rong.imlib.model.Conversation;
  * @author lilingfei
  * @date 2018/8/7
  */
-public class ConversationListActivity extends BaseAppActivity {
+public class ConversationListActivity extends BaseActivity {
     @BindView(R.id.tv_conversation)
     TextView mTvConversation;
     @BindView(R.id.conversationlist)
@@ -37,7 +37,7 @@ public class ConversationListActivity extends BaseAppActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_conversation_list);
-        ButterKnife.bind(this);
+
         initData();
         initListener();
     }
@@ -82,14 +82,17 @@ public class ConversationListActivity extends BaseAppActivity {
 //                }else {
 //                    return false;
 //                }
-            return false;
+                return false;
 
             }
         });
 
     }
 
+    @Override
+    protected void initView() {
 
+    }
 
     @Override
     protected void onResume() {

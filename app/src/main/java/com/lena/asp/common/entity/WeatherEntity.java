@@ -17,52 +17,7 @@ public class WeatherEntity extends BaseEntity{
      * data : {"shidu":"80%","pm25":27,"pm10":34,"quality":"优","wendu":"24","ganmao":"各类人群可自由活动","yesterday":{"date":"12日星期四","sunrise":"04:55","high":"高温 27.0℃","low":"低温 22.0℃","sunset":"19:44","aqi":59,"fx":"西北风","fl":"<3级","type":"小雨","notice":"雨虽小，注意保暖别感冒"},"forecast":[{"date":"13日星期五","sunrise":"04:56","high":"高温 28.0℃","low":"低温 22.0℃","sunset":"19:43","aqi":90,"fx":"东风","fl":"<3级","type":"雷阵雨","notice":"带好雨具，别在树下躲雨"},{"date":"14日星期六","sunrise":"04:56","high":"高温 30.0℃","low":"低温 24.0℃","sunset":"19:43","aqi":67,"fx":"东北风","fl":"<3级","type":"雷阵雨","notice":"带好雨具，别在树下躲雨"},{"date":"15日星期日","sunrise":"04:57","high":"高温 31.0℃","low":"低温 25.0℃","sunset":"19:42","aqi":75,"fx":"南风","fl":"<3级","type":"多云","notice":"阴晴之间，谨防紫外线侵扰"},{"date":"16日星期一","sunrise":"04:58","high":"高温 32.0℃","low":"低温 26.0℃","sunset":"19:42","aqi":90,"fx":"南风","fl":"3-4级","type":"阴","notice":"不要被阴云遮挡住好心情"},{"date":"17日星期二","sunrise":"04:59","high":"高温 32.0℃","low":"低温 25.0℃","sunset":"19:41","aqi":104,"fx":"南风","fl":"<3级","type":"雷阵雨","notice":"带好雨具，别在树下躲雨"}]}
      */
 
-    private String date;
-    private String message;
-    private int status;
-    private String city;
-    private int count;
     private DataBean data;
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
 
     public DataBean getData() {
         return data;

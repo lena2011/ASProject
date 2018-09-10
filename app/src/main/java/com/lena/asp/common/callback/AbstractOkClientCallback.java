@@ -8,18 +8,26 @@ import com.alibaba.fastjson.JSONObject;
 import com.lena.asp.common.entity.BaseEntity;
 import com.lena.asp.utils.LogUtil;
 import com.lzy.okgo.callback.AbsCallback;
+import com.lzy.okgo.convert.StringConvert;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 
 /**
  * @author lilingfei
  * @date 2018/9/8
  */
-public abstract class OkClientCallback<T> extends AbsCallback<T> {
+public abstract class AbstractOkClientCallback<T> extends AbsCallback<T> {
     private Class<T> mClass;
     private BaseEntity mBaseEntity;
 
-    public OkClientCallback(Class<T> mClass) {
+    public AbstractOkClientCallback(Class<T> mClass) {
         this.mClass = mClass;
+    }
+
+    @Override
+    public void onStart(Request<T, ? extends Request> request) {
+        super.onStart(request);
+        LogUtil.i("onStart");
     }
 
     /**
@@ -41,21 +49,23 @@ public abstract class OkClientCallback<T> extends AbsCallback<T> {
      */
     @Override
     public T convertResponse(okhttp3.Response response) throws Throwable {
-        LogUtil.i("response=" + response.body().string());
+
+        LogUtil.i("class=" + mClass);
+        String json =new StringConvert().convertResponse(response);
+        LogUtil.i("response=" + json);
         T entity = null;
         synchronized (this) {
             try {
                 if (response.body() != null) {
-                    String json = response.body().string();
                     entity = JSON.parseObject(json, mClass);
                     mBaseEntity = (BaseEntity) entity;
                 }
-
-
             } catch (Exception e) {
+                LogUtil.e("e=" + e.getStackTrace());
                 e.printStackTrace();
             }
+            return entity;
         }
-        return entity;
     }
+
 }

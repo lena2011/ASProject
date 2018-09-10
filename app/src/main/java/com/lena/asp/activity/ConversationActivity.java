@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lena.asp.R;
-import com.lena.asp.base.BaseAppActivity;
+import com.lena.asp.base.BaseActivity;
 import com.lena.asp.utils.LogUtil;
 import com.lena.asp.utils.StringUtils;
 
@@ -30,7 +30,7 @@ import io.rong.message.VoiceMessage;
  * @author lilingfei
  * @date 2018/8/6
  */
-public class ConversationActivity extends BaseAppActivity {
+public class ConversationActivity extends BaseActivity {
     private final int SET_TEXT_TYPING_TITLE = 0;
     private final int SET_VOICE_TYPING_TITLE = 1;
     private final int SET_TARGETID_TITLE = 2;
@@ -49,13 +49,13 @@ public class ConversationActivity extends BaseAppActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_conversation);
-        ButterKnife.bind(this);
-        initView();
+
         initData();
         initListener();
     }
 
-    private void initView() {
+     @Override
+     protected void initView() {
         userId=getIntent().getData().getQueryParameter("targetId");
          title = getIntent().getData().getQueryParameter("title");
         if (!StringUtils.isEmpty(title)){

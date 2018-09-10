@@ -1,15 +1,11 @@
 package com.lena.asp.common.okgo;
 
 import android.content.Context;
-import android.telecom.Call;
 
-import com.lena.asp.common.callback.CallbackApi;
-import com.lena.asp.common.callback.OkClientCallback;
-import com.lena.asp.common.entity.BaseEntity;
+import com.lena.asp.common.callback.AbstractOkClientCallback;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.model.HttpParams;
-import com.lzy.okgo.model.Response;
 
 /**
  * @auther lilingfei
@@ -18,7 +14,10 @@ import com.lzy.okgo.model.Response;
 
 public class OkClient {
     private static OkClient mOkClient = null;
+    private int retryCount = 0;
 
+    public OkClient() {
+    }
 
     public static OkClient getInstance() {
         if (mOkClient == null) {
@@ -32,17 +31,19 @@ public class OkClient {
     }
 
 
-    public void getString(Context mContext, String url, HttpParams httpParams, final OkClientCallback callback) {
+    public void getString(Context mContext, String url, HttpParams httpParams, final AbsCallback callback) {
         OkGo.<String>get(url)
                 .tag(mContext)
                 .params(httpParams)
+                .retryCount(retryCount)
                 .execute(callback);
     }
 
-    public void postString(Context mContext, String url, HttpParams httpParams, final OkClientCallback callback) {
+    public void postString(Context mContext, String url, HttpParams httpParams, final AbsCallback callback) {
         OkGo.<String>post(url)
                 .tag(mContext)
                 .params(httpParams)
+                .retryCount(retryCount)
                 .execute(callback);
     }
 
